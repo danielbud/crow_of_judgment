@@ -1,0 +1,23 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: enforce-onepassword-names
+  annotations:
+    policies.kyverno.io/title: Enforce OnePassword Names
+    policies.kyverno.io/description: >-
+      Enforce OnePassword Names
+spec:
+  validationFailureAction: enforce
+  rules:
+  - name: enforce-onepassword-names
+    match:
+      resources:
+        kinds:
+        - OnePasswordItem
+    validate:
+      message: "Invalid OnePasswordItem name, use pattern 1password-namespace-servicename"
+      pattern:
+        metadata:
+          # Docs on using variable interpolation https://kyverno.io/docs/writing-policies/variables/
+          name: "1password-{{request.object.metadata.namespace}}-*"
+
