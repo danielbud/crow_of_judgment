@@ -13,7 +13,10 @@ helm repo add kyverno https://kyverno.github.io/kyverno/
 helm repo update
 
 kubectl create ns kyverno-system
-helm upgrade --install kyverno kyverno/kyverno --namespace kyverno-system
+kubens kyverno-system
+helm upgrade --install kyverno kyverno/kyverno \
+    --namespace kyverno-system \
+    --wait
 
 
 # Apply OnePassword fake
